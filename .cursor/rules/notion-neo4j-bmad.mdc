@@ -1,0 +1,12 @@
+---
+description: BMAD fork uses Notion as source of truth and Neo4j as persistent memory. Follow these when working in this project.
+globs: 
+alwaysApply: false
+---
+
+# Notion + Neo4j for BMAD
+
+- **Notion:** Agent names, personas, and workflows are defined in Notion. Use MCP **notion-fetch** with the project’s canonical URLs (see `README-FORK-SETUP.md`) to pull latest content. Agents ARE their names; never refer to them by inspiration names.
+- **Neo4j:** Persistent, relationship-aware memory uses the **user-neo4j-memory** MCP. After workflow steps or handoffs, call **memory_manage** (create) with types from `docs/memory-schema.md` (Event, Outcome, Insight, Handoff, etc.). Link memories with **relation_manage** (HANDOFF_TO, INFORMED_BY, DEPENDS_ON, CONTAINS). Before starting a step, use **memory_search** with `includeGraphContext: true` (and optional `memoryTypes`) to load context.
+- **Workflows:** Planning = Jay → John → Winston; Execution = Bob → Brooks/Barry → Troy; Support = Allura, Paige, Dr. Quinn, Sarah Boone. Handoff doc: `_bmad/bmm/data/workflow-handoffs-and-memory.md`. Use `<invoke-protocol name="log_memory" />` in workflow instructions to log outcomes to Neo4j.
+- **Reference:** Full integration design and memory schema: `docs/NOTION-AND-NEO4J-INTEGRATION.md`, `docs/memory-schema.md`.
